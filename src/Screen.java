@@ -15,7 +15,7 @@ public class Screen extends JPanel{
 	private Graphics buffer;
 	private Atom player;
 	private HashSet<Subatomic> particles;
-	private final double KEYACCELERATION = 0.0005; //change in acceleration to move per millisecond
+	private final double KEYACCELERATION = 0.5; //change in acceleration to move per millisecond
 	private HashSet<Subatomic> protons, electrons;
 	
 	public Screen(){
@@ -45,16 +45,16 @@ public class Screen extends JPanel{
 	class Key extends KeyAdapter{
 		public void keyPressed(KeyEvent e){
 			if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-				player.setaX(player.getaX() - KEYACCELERATION);
+				player.setdX(player.getdX() - KEYACCELERATION);
 			}
 			if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				player.setaX(player.getaX() + KEYACCELERATION);
+				player.setdX(player.getdX() + KEYACCELERATION);
 			}
 			if(e.getKeyCode() == KeyEvent.VK_UP) {
-				player.setaY(player.getaY() + KEYACCELERATION);
+				player.setdY(player.getdY() - KEYACCELERATION);
 			}
 			if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-				player.setaY(player.getaY() - KEYACCELERATION);
+				player.setdY(player.getdY() + KEYACCELERATION);
 			}
 		}
 	}

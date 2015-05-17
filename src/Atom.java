@@ -6,20 +6,20 @@ public class Atom {
 	private Color color;
 	private double x, y, radius;
 	private double dx, dy, ax, ay;
-	public double getaX() {
+	public double getdX() {
 		return ax;
 	}
 
-	public void setaX(double ax) {
-		this.ax = ax;
+	public void setdX(double dx) {
+		this.dx = dx;
 	}
 
-	public double getaY() {
-		return ay;
+	public double getdY() {
+		return dy;
 	}
 
-	public void setaY(double ay) {
-		this.ay = ay;
+	public void setdY(double dy) {
+		this.dy = dy;
 	}
 	
 	public double getRadius() {
@@ -39,8 +39,6 @@ public class Atom {
 	}
 	
 	public void update(){
-		dx += ax;
-		dy += ay;
 		x += dx;
 		y += dy;
 	}
