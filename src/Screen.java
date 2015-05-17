@@ -15,7 +15,7 @@ public class Screen extends JPanel{
 	private Graphics buffer;
 	private Atom player;
 	private HashSet<Subatomic> particles;
-	private int keySpeed = 5; //Number of pixels to move per keypress
+	private final int KEYACCELERATION = 5; //change in acceleration to move per keypress
 	private HashSet<Subatomic> protons, electrons;
 	
 	public Screen(){
@@ -33,6 +33,8 @@ public class Screen extends JPanel{
 		Timer timer = new Timer(10000, new Checker());
 		update.start();
 		
+		addKeyListener(new Key());
+		setFocusable(true);
 	}
 	
 	@Override
@@ -43,32 +45,25 @@ public class Screen extends JPanel{
 	class Key extends KeyAdapter{
 		public void keyPressed(KeyEvent e){
 			if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-				int tmp = player.getX()-keySpeed;
-				if(tmp-player.getRadius()<0) tmp=0;
-				player.setX(tmp);
+				player.setaX(player.getaX() - KEYACCELERATION);
 			}
 			if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				int tmp = player.getX()+keySpeed;
-				if(tmp+player.getRadius()>=getWidth()) tmp=getWidth();
-				player.setX(tmp);
+				player.setaX(player.getaX() + KEYACCELERATION);
 			}
 			if(e.getKeyCode() == KeyEvent.VK_UP) {
-				int tmp = player.getY()-keySpeed;
-				if(tmp-player.getRadius()<0) tmp=0;
-				player.setY(tmp);
+				player.setaY(player.getaY() + KEYACCELERATION);
 			}
 			if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-				int tmp = player.getY()+keySpeed;
-				if(tmp+player.getRadius()>=getHeight()) tmp=getHeight();
-				player.setY(tmp);
+				player.setaY(player.getaY() - KEYACCELERATION);
 			}
 		}
 	}
 	
 	class Listener implements ActionListener{
+		public final double PROBABILITY = 0.005;
 		public void actionPerformed(ActionEvent e){
-			if(Math.random() < 0){
-				if(Math.random() < 0){
+			if(Math.random() < 0.005){
+				if(Math.random() < 0.5){
 					electrons.add(new Electron((int)(Math.random()*760) + 20, (int)(Math.random()*560) + 20));
 				}
 				else{
@@ -78,6 +73,7 @@ public class Screen extends JPanel{
 			
 			buffer.setColor(Color.WHITE);
 			buffer.fillRect(0, 0, getWidth(), getHeight());
+			player.update();
 			player.draw(buffer);
 			
 			HashSet<Subatomic> copy = new HashSet<Subatomic>(electrons);
