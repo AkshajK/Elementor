@@ -30,7 +30,7 @@ public class Screen extends JPanel{
 		Timer update = new Timer(10, new Listener());
 		update.start();
 		
-		Timer timer = new Timer(10000, new Listener());
+		Timer timer = new Timer(10000, new Checker());
 		update.start();
 		
 	}
@@ -79,6 +79,7 @@ public class Screen extends JPanel{
 			buffer.setColor(Color.WHITE);
 			buffer.fillRect(0, 0, getWidth(), getHeight());
 			player.draw(buffer);
+			
 			HashSet<Subatomic> copy = new HashSet<Subatomic>(electrons);
 			for(Subatomic electron : copy){
 				electron.draw(buffer);
@@ -91,6 +92,7 @@ public class Screen extends JPanel{
 				if(player.intersect(proton))
 					protons.remove(proton);
 			}
+			
 			repaint();
 		}
 	}
