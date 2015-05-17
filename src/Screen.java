@@ -53,7 +53,7 @@ public class Screen extends JPanel{
 		Timer update = new Timer(10, new Listener());
 		update.start();
 		
-		Timer timer = new Timer(1000, new Checker());
+		Timer timer = new Timer(10, new Checker());
 		timer.start();
 		
 		Timer keyPress = new Timer(5, new ActionListener() {
@@ -116,6 +116,7 @@ public class Screen extends JPanel{
 			}
 			else{
 				if(e.getKeyCode() == KeyEvent.VK_SPACE){
+					setFocusable(false);
 					Main.restart();
 				}
 			}
@@ -200,7 +201,7 @@ public class Screen extends JPanel{
 				score.setText(player.getScore()+"");
 				//winlose.setText("Net charge: " + (player.getProtonNum() - player.getElectronNum()));
 				time.setFont(new Font("Sans Serif", Font.BOLD, 30));
-	//			winlose.setFont(new Font("Sans Serif", Font.BOLD, 30));
+				winlose.setFont(new Font("Sans Serif", Font.BOLD, 30));
 	//			winlose.setHorizontalAlignment(SwingConstants.CENTER);
 				score.setFont(new Font("Sans Serif", Font.BOLD, 30));
 				repaint();
