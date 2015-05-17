@@ -12,20 +12,21 @@ import javax.swing.Timer;
 public class Screen extends JPanel{
 	private BufferedImage image;
 	private Graphics buffer;
+	private Atom player;
 	
 	public Screen(){
 		setSize(800, 600);
 		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 		buffer = image.getGraphics();
 		
+		player = new Atom();
+		
 		Timer timer = new Timer(10, new Listener());
 		timer.start();
 		
-		Atom player = new Atom();
-		player.draw(buffer);
-		
 	}
 	
+	@Override
 	public void paintComponent(Graphics g){
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 	}
@@ -45,6 +46,8 @@ public class Screen extends JPanel{
 		public void actionPerformed(ActionEvent e){
 			buffer.setColor(Color.WHITE);
 			buffer.fillRect(0, 0, getWidth(), getHeight());
+			player.draw(buffer);
+			repaint();
 		}
 	}
 }
