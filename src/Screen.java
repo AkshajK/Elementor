@@ -46,9 +46,25 @@ public class Screen extends JPanel{
 	
 	class Listener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
+			if(Math.random() < 0){
+				if(Math.random() < 0){
+					particles.add(new Electron((int)(Math.random()*760) + 20, (int)(Math.random()*560) + 20));
+				}
+				else{
+					particles.add(new Proton((int)(Math.random()*760) + 20, (int)(Math.random()*560) + 20));
+				}
+			}
+			
 			buffer.setColor(Color.WHITE);
 			buffer.fillRect(0, 0, getWidth(), getHeight());
 			player.draw(buffer);
+			
+			for(Subatomic particle : particles){
+				particle.draw(buffer);
+				if(player.intersect(particle))
+					particles.remove(particle);
+			}
+			
 			repaint();
 		}
 	}
