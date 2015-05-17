@@ -21,6 +21,7 @@ public class Screen extends JPanel{
 	private Graphics buffer;
 	private Atom player;
 	private JLabel name, chemical, positive, negative, charge, score, winlose, time;
+	private boolean up=false,down=false,left=false,right=false;
 
 	private JPanel game, info, top;
 	private double KEYACCELERATION = 2;
@@ -51,6 +52,17 @@ public class Screen extends JPanel{
 		
 		Timer timer = new Timer(1000, new Checker());
 		timer.start();
+		
+		Timer keyPress = new Timer(5, new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				if(left) player.setdX(player.getdX() - KEYACCELERATION);
+				if(right) player.setdX(player.getdX() + KEYACCELERATION);
+				if(up) player.setdY(player.getdY() - KEYACCELERATION);
+				if(down) player.setdY(player.getdY() + KEYACCELERATION);
+					
+			}
+		});
+		keyPress.start();
 		
 		addKeyListener(new Key());
 		setFocusable(true);
@@ -85,14 +97,24 @@ public class Screen extends JPanel{
 	
 	class Key extends KeyAdapter{
 		public void keyPressed(KeyEvent e){
-			if(e.getKeyCode() == KeyEvent.VK_LEFT) 
-				player.setdX(player.getdX() - KEYACCELERATION);
+			if(e.getKeyCode() == KeyEvent.VK_LEFT)
+				left=true;
 			if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
-				player.setdX(player.getdX() + KEYACCELERATION);
+				right=true;
 			if(e.getKeyCode() == KeyEvent.VK_UP) 
-				player.setdY(player.getdY() - KEYACCELERATION);
+				up=true;
 			if(e.getKeyCode() == KeyEvent.VK_DOWN) 
-				player.setdY(player.getdY() + KEYACCELERATION);
+				down=true;
+		}
+		public void keyReleased(KeyEvent e) {
+			if(e.getKeyCode() == KeyEvent.VK_LEFT)
+				left=false;
+			if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
+				right=false;
+			if(e.getKeyCode() == KeyEvent.VK_UP) 
+				up=false;
+			if(e.getKeyCode() == KeyEvent.VK_DOWN) 
+				down=false;
 		}
 	}
 	
