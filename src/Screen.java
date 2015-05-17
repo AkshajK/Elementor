@@ -21,10 +21,10 @@ public class Screen extends JPanel{
 	private Graphics buffer;
 	private Atom player;
 	private JLabel name, chemical, positive, negative, charge, score, winlose, time;
-	private boolean up=false,down=false,left=false,right=false;
+	private boolean up=false,down=false,left=false,right=false, playing;
 
-	private JPanel game, info, top;
-	private double KEYACCELERATION = 2;
+	private JPanel game, info, top, particles, element;
+	private double KEYACCELERATION = 1;
 
 	private Rectangle frame;
 	
@@ -35,13 +35,16 @@ public class Screen extends JPanel{
 
 	
 	public Screen(){
+		playing = true;
 		setSize(800, 600);
 		setLayout(new BorderLayout());
 		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 		buffer = image.getGraphics();
 		frame = new Rectangle();
 		info = new JPanel();
-		
+		element = new JPanel();
+		particles = new JPanel();
+		element.setLayout(new BorderLayout());
 		
 		player = new Atom();
 		protons = new HashSet<Subatomic>();
@@ -72,11 +75,15 @@ public class Screen extends JPanel{
 		negative = new JLabel();
 		charge = new JLabel();
 		
-		info.add(chemical);
-		info.add(name);
-		info.add(positive);
-		info.add(negative);
-		info.add(charge);
+		info.setLayout(new BorderLayout());
+		element.add(chemical, BorderLayout.WEST);
+		element.add(name, BorderLayout.EAST);
+		particles.setLayout(new BorderLayout());
+		particles.add(positive, BorderLayout.EAST);
+		particles.add(negative, BorderLayout.WEST);
+		info.add(charge, BorderLayout.CENTER);
+		info.add(element, BorderLayout.WEST);
+		info.add(particles, BorderLayout.EAST);
 		add(info, BorderLayout.SOUTH);
 		
 		top = new JPanel();
@@ -97,14 +104,21 @@ public class Screen extends JPanel{
 	
 	class Key extends KeyAdapter{
 		public void keyPressed(KeyEvent e){
-			if(e.getKeyCode() == KeyEvent.VK_LEFT)
-				left=true;
-			if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
-				right=true;
-			if(e.getKeyCode() == KeyEvent.VK_UP) 
-				up=true;
-			if(e.getKeyCode() == KeyEvent.VK_DOWN) 
-				down=true;
+			if(playing){
+				if(e.getKeyCode() == KeyEvent.VK_LEFT)
+					left=true;
+				if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
+					right=true;
+				if(e.getKeyCode() == KeyEvent.VK_UP) 
+					up=true;
+				if(e.getKeyCode() == KeyEvent.VK_DOWN) 
+					down=true;
+			}
+			else{
+				if(e.getKeyCode() == KeyEvent.VK_SPACE){
+					Main.restart();
+				}
+			}
 		}
 		public void keyReleased(KeyEvent e) {
 			if(e.getKeyCode() == KeyEvent.VK_LEFT)
@@ -121,65 +135,84 @@ public class Screen extends JPanel{
 	class Listener implements ActionListener{
 		public final double PROBABILITY = 0.05;
 		public void actionPerformed(ActionEvent e){
-			if(Math.random() < PROBABILITY){
-				if(Math.random() < 0.5){
-					electrons.add(new Electron((int)(Math.random()*3*getWidth()) - getWidth() + frame.x, (int)(Math.random()*3*getHeight()) - getHeight() + frame.y));
+			if(playing){
+				if(Math.random() < PROBABILITY){
+					if(Math.random() < 0.5){
+						electrons.add(new Electron((int)(Math.random()*3*getWidth()) - getWidth() + frame.x, (int)(Math.random()*3*getHeight()) - getHeight() + frame.y));
+					}
+					else{
+						protons.add(new Proton((int)(Math.random()*3*getWidth()) - getWidth() + frame.x, (int)(Math.random()*3*getHeight()) - getHeight() + frame.y));
+					}
+				}
+				
+				buffer.setColor(Color.WHITE);
+				buffer.fillRect(0, 0, getWidth(), getHeight());
+				buffer.setColor(Color.GRAY);
+				player.update();
+				player.draw(buffer, getWidth(), getHeight());
+				
+				frame.setBounds(player.getX() - getWidth()/2, player.getY() - getHeight()/2, getWidth(), getHeight());
+				
+				HashSet<Subatomic> copy = new HashSet<Subatomic>(electrons);
+				for(Subatomic electron : copy){
+					if(frame.contains(electron.getX(), electron.getY())){
+						if(player.intersect(electron)) {
+							player.incrementElectron();
+							electrons.remove(electron);
+						}
+						else electron.draw(buffer, frame.x, frame.y);
+					}
+				}
+				copy = new HashSet<Subatomic>(protons);
+				for(Subatomic proton: copy){
+					if(frame.contains(proton.getX(), proton.getY())){
+						if(player.intersect(proton)) {
+							player.incrementProton();
+							protons.remove(proton);
+						}
+						else proton.draw(buffer, frame.x, frame.y);
+					}
+				}
+				if(player.getProtonNum() == 118){
+					win();
 				}
 				else{
-					protons.add(new Proton((int)(Math.random()*3*getWidth()) - getWidth() + frame.x, (int)(Math.random()*3*getHeight()) - getHeight() + frame.y));
+					name.setText(elements[player.getProtonNum()-1] + " (" + elems[player.getProtonNum() - 1] + ")");
+					name.setFont(new Font("Sans Serif", Font.BOLD, 20));
 				}
-			}
-			
-			buffer.setColor(Color.WHITE);
-			buffer.fillRect(0, 0, getWidth(), getHeight());
-			buffer.setColor(Color.GRAY);
-			player.update();
-			player.draw(buffer, getWidth(), getHeight());
-			
-			frame.setBounds(player.getX() - getWidth()/2, player.getY() - getHeight()/2, getWidth(), getHeight());
-			
-			HashSet<Subatomic> copy = new HashSet<Subatomic>(electrons);
-			for(Subatomic electron : copy){
-				if(frame.contains(electron.getX(), electron.getY())){
-					if(player.intersect(electron)) {
-						player.incrementElectron();
-						electrons.remove(electron);
-					}
-					else electron.draw(buffer, frame.x, frame.y);
+				//particles.setText("Protons: " + player.getProtonNum() + " Electrons: " + player.getElectronNum());
+				if(player.getProtonNum() - player.getElectronNum() > 0){
+					charge.setText("Net charge: " + "+" + (player.getProtonNum() - player.getElectronNum()));
 				}
-			}
-			copy = new HashSet<Subatomic>(protons);
-			for(Subatomic proton: copy){
-				if(frame.contains(proton.getX(), proton.getY())){
-					if(player.intersect(proton)) {
-						player.incrementProton();
-						protons.remove(proton);
-					}
-					else proton.draw(buffer, frame.x, frame.y);
+				else{
+					charge.setText("Net charge: " + (player.getProtonNum() - player.getElectronNum()));
 				}
-			}
-			if(player.getProtonNum() == 118){
-				win();
+				positive.setText("Protons: " + player.getProtonNum());
+				positive.setFont(new Font("Sans Serif", Font.BOLD, 20));
+				negative.setText("Electrons: " + player.getElectronNum() + "   ");
+				negative.setFont(new Font("Sans Serif", Font.BOLD, 20));
+				charge.setFont(new Font("Sans Serif", Font.BOLD, 30));
+				charge.setHorizontalAlignment(SwingConstants.CENTER);
+
+				
+				DecimalFormat df = new DecimalFormat("#.##");
+				time.setText(df.format((Double.parseDouble(time.getText()) + 0.01)));
+				score.setText(player.getScore()+"");
+				//winlose.setText("Net charge: " + (player.getProtonNum() - player.getElectronNum()));
+				time.setFont(new Font("Sans Serif", Font.BOLD, 30));
+	//			winlose.setFont(new Font("Sans Serif", Font.BOLD, 30));
+	//			winlose.setHorizontalAlignment(SwingConstants.CENTER);
+				score.setFont(new Font("Sans Serif", Font.BOLD, 30));
+				repaint();
 			}
 			else{
-				name.setText(elements[player.getProtonNum()-1]);
-				chemical.setText(elems[player.getProtonNum()-1]);
+				
 			}
-			positive.setText("Protons: " + player.getProtonNum());
-			negative.setText("Electrons: " + player.getElectronNum());
-			charge.setText("Net charge: " + (player.getProtonNum() - player.getElectronNum()));
-			
-			DecimalFormat df = new DecimalFormat("#.##");
-			time.setText(df.format((Double.parseDouble(time.getText()) + 0.01)));
-			score.setText(player.getScore()+"");
-			time.setFont(new Font("Sans Serif", Font.BOLD, 30));
-			score.setFont(new Font("Sans Serif", Font.BOLD, 30));
-			repaint();
 		}
 		
 		public void win(){
 			winlose.add(new JLabel("You win!"));
-			add(winlose, BorderLayout.NORTH);
+			playing = false;
 		}
 	}
 	
@@ -193,6 +226,7 @@ public class Screen extends JPanel{
 			winlose.setText("Game over!");
 			winlose.setHorizontalAlignment(SwingConstants.CENTER);
 			top.add(winlose, BorderLayout.CENTER);
+			playing = false;
 		}
 	}
 }
