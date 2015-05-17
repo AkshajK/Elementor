@@ -23,8 +23,6 @@ public class Screen extends JPanel{
 	private final int WIDTH = 4000, HEIGHT = 3000;
 	private Rectangle frame;
 	
-	private final double KEYACCELERATION = 0.3; // ACCELERATION RATE
-	private final double KEYACCELERATION2 = 0.3; // DECELERATION RATE
 
 	private HashSet<Subatomic> protons, electrons;
 	private int electronNum=1, protonNum=1;
@@ -82,20 +80,20 @@ public class Screen extends JPanel{
 		public void keyPressed(KeyEvent e){
 			if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 
-				if(player.getaX() <= 0) player.setaX(player.getaX() - KEYACCELERATION);
-				else player.setaX(player.getaX() - KEYACCELERATION2);
+				if(player.getaX() <= 0) player.setX(player.getX() - KEYACCELERATION);
+				else player.setX(player.getX() - KEYACCELERATION2);
 			}
 			if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				if(player.getaX() >= 0) player.setaX(player.getaX() + KEYACCELERATION);
-				else player.setaX(player.getaX() + KEYACCELERATION2);
+				if(player.getX() >= 0) player.setX(player.getX() + KEYACCELERATION);
+				else player.setX(player.getX() + KEYACCELERATION2);
 			}
 			if(e.getKeyCode() == KeyEvent.VK_UP) {
-				if(player.getaY() <= 0) player.setaY(player.getaY() - KEYACCELERATION);
-				else player.setaY(player.getaY() - KEYACCELERATION2);
+				if(player.getY() <= 0) player.setY(player.getY() - KEYACCELERATION);
+				else player.setY(player.getY() - KEYACCELERATION2);
 			}
 			if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-				if(player.getaX() >= 0) player.setaY(player.getaY() + KEYACCELERATION);
-				else player.setaY(player.getaY() + KEYACCELERATION2);
+				if(player.getX() >= 0) player.setY(player.getY() + KEYACCELERATION);
+				else player.setY(player.getY() + KEYACCELERATION2);
 			}
 		}
 	}

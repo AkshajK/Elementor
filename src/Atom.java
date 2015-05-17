@@ -22,6 +22,22 @@ public class Atom {
 	public double getaX() {
 		return ax;
 	}
+	
+	public void setX(int x){
+		this.x = x;
+	}
+	
+	public void setY(int y){
+		this.y = y;
+	}
+	public void setX(double x){
+		setX((int)x);
+	}
+	
+	public void setY(double y){
+		setY((int)y);
+	}
+	
 
 	public void setaX(double ax) {
 		if((this.dx < MAX || ax < this.ax) && (this.dx > -1*MAX || ax > this.ax)) this.ax = ax;

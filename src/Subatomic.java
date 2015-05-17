@@ -36,6 +36,13 @@ public abstract class Subatomic {
 	public void setY(int y){
 		this.y = y;
 	}
+	public void setX(double x){
+		setX((int)x);
+	}
+	
+	public void setY(double y){
+		setY((int)y);
+	}
 	
 	public Color getColor() {
 		return color;
