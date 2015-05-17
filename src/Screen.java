@@ -16,6 +16,7 @@ public class Screen extends JPanel{
 	private Atom player;
 	private HashSet<Subatomic> particles;
 	private int keySpeed = 5; //Number of pixels to move per keypress
+	private HashSet<Subatomic> protons, electrons;
 	
 	public Screen(){
 		setSize(800, 600);
@@ -23,9 +24,14 @@ public class Screen extends JPanel{
 		buffer = image.getGraphics();
 		
 		player = new Atom();
-		particles = new HashSet<Subatomic>();
-		Timer timer = new Timer(10, new Listener());
-		timer.start();
+		protons = new HashSet<Subatomic>();
+		electrons = new HashSet<Subatomic>();
+		
+		Timer update = new Timer(10, new Listener());
+		update.start();
+		
+		Timer timer = new Timer(10000, new Listener());
+		update.start();
 		
 	}
 	
@@ -61,10 +67,37 @@ public class Screen extends JPanel{
 	
 	class Listener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
+			if(Math.random() < 0){
+				if(Math.random() < 0){
+					electrons.add(new Electron((int)(Math.random()*760) + 20, (int)(Math.random()*560) + 20));
+				}
+				else{
+					protons.add(new Proton((int)(Math.random()*760) + 20, (int)(Math.random()*560) + 20));
+				}
+			}
+			
 			buffer.setColor(Color.WHITE);
 			buffer.fillRect(0, 0, getWidth(), getHeight());
 			player.draw(buffer);
+			HashSet<Subatomic> copy = new HashSet<Subatomic>(electrons);
+			for(Subatomic electron : copy){
+				electron.draw(buffer);
+				if(player.intersect(electron))
+					electrons.remove(electron);
+			}
+			copy = new HashSet<Subatomic>(protons);
+			for(Subatomic proton: copy){
+				proton.draw(buffer);
+				if(player.intersect(proton))
+					protons.remove(proton);
+			}
 			repaint();
+		}
+	}
+	
+	class Checker implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			
 		}
 	}
 }
