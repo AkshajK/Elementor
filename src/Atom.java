@@ -7,7 +7,7 @@ public class Atom {
 	private double x, y, radius;
 	private double dx, dy, ax, ay;
 	public double getdX() {
-		return ax;
+		return dx;
 	}
 
 	public void setdX(double dx) {

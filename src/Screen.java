@@ -15,7 +15,7 @@ public class Screen extends JPanel{
 	private Graphics buffer;
 	private Atom player;
 	private HashSet<Subatomic> particles;
-	private final double KEYACCELERATION = 0.5; //change in acceleration to move per millisecond
+	private final double KEYACCELERATION = 1; //change in acceleration to move per millisecond
 	private HashSet<Subatomic> protons, electrons;
 	
 	public Screen(){
