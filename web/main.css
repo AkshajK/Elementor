@@ -1,6 +1,39 @@
 h1 {
- color: black; 
+ color: white; 
+ font-family: "Courier New";
 }
 body {
-  background: orange;
+  background-color: #75715e; color: #fefefe;
+  font-size: 13px; line-height: 1.4;
+  margin: 0;
+  -webkit-font-smoothing: subpixel-antialiased;
+  text-align: center;
+}
+#menu {
+    width: max-width;
+    height: 35px;
+    font-size: 16px;
+    font-family: "Courier New";
+    font-weight: none;
+    text-align: center;
+    background-color: #a6da27;
+        border-radius: 8px;
+}
+#menu ul {
+    height: auto;
+    padding: 8px 0px;
+    margin: 0px;
+}
+#menu li { 
+display: inline; 
+padding: 20px;
+}
+#menu a {
+    text-decoration: none;
+    color: #00F;
+    padding: 8px 8px 8px 8px;
+}
+#menu a:hover {
+    color: #F90;
+    background-color: #fefefe;
 }
