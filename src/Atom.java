@@ -261,22 +261,63 @@ public class Atom {
 	
 	private ArrayList<Electron> getElectrons(int x1, int y1) {
 		ArrayList<Electron> r = new ArrayList<>();
-		int electronRadius = (int)((new Electron()).getRadius()/electronRatio);
-		int totalRadius = radius+electronRadius;
-		int count = 0;
-		
-		for(int i=1; count<electronNum; i++) {
-			for(double j=0; count<electronNum && j<2*Math.PI; j+=2*Math.PI/(2*i*i)) {
-				count++;
-
-				r.add(new Electron((int)(x1+totalRadius*Math.cos(j-Math.PI/2)),
-						(int)(y1+totalRadius*Math.sin(j-Math.PI/2)), electronRadius));
-			}
-			totalRadius += 2*electronRadius;
+		Orbital[] orbitals = new Orbital[9];
+		for(int i=1; i<=8; i++) {
+			orbitals[i] = new Orbital(i,x1,y1);
 		}
+		int tmpElectronNum = electronNum;
+		for(int i=1; electronNum>0; i++) { // current row number of bottom element
+			int start = 4;
+			if(i == 5 || i == 6) start = 3;
+			if(i == 4 || i == 3) start = 2;
+			if(i == 2 || i == 1) start = 1;
+			int temp = i-(start-1);
+			for(int k= 2+4*(start-1); electronNum>0 && k>=0; k-=4) { // number of electrons in j-th orbital
+				for(int m=0; electronNum>0 && m<k; m++) {
+					orbitals[temp].add();
+					electronNum--;
+				}
+			    temp++;
+			}
+		}
+		for(int i=1; i<=8; i++) {
+			for(Electron e : orbitals[i].getElectrons()) {
+				r.add(e);
+			}
+		}
+		electronNum = tmpElectronNum;
 		return r;
 	}
+	class Orbital {
+		private double nextAngle;
+		private int nextX, nextY, x1, y1;
+		private int capacity;
+		private ArrayList<Electron> electrons;
+		private final int eRadius = (int)((new Electron()).getRadius()/electronRatio);
+		private int tRadius;
+		
+		public Orbital(int num, int x1, int y1) {
+			this.x1 = x1;
+			this.y1 = y1;
+			nextX = x1;
+			capacity = 2*num*num;
+			nextAngle = Math.PI/2-2*Math.PI/capacity;
+			tRadius = radius+(int)((2*(num-1)+1)*(new Electron()).getRadius()/electronRatio);
+			nextY = y1-tRadius;
+			electrons = new ArrayList<>();
+		}
+		public void add() {
+			electrons.add(new Electron(nextX, nextY, eRadius));
+			nextX = x1+(int)(tRadius*Math.cos(nextAngle));
+			nextY = y1-(int)(tRadius*Math.sin(nextAngle));
+			nextAngle -= 2*Math.PI/capacity;
+		}
+		public ArrayList<Electron> getElectrons() {
+			return electrons;
+		}
+	}
 	private void drawElectrons(Graphics buffer, int x1, int y1) {
+		buffer.setColor((new Electron()).getColor());
 		for(Electron e : getElectrons(x1,y1)) {
 			buffer.fillOval(e.getX()-e.getRadius(), e.getY()-e.getRadius(),
 							2*e.getRadius(), 2*e.getRadius());

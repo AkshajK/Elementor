@@ -20,7 +20,7 @@ public class Screen extends JPanel{
 	private JLabel name, chemical, positive, negative, charge, TEMP;
 
 	private JPanel game, info, winlose;
-	private double KEYACCELERATION = 5;
+	private double KEYACCELERATION = 2;
 
 	private Rectangle frame;
 	
@@ -90,9 +90,9 @@ public class Screen extends JPanel{
 	}
 	
 	class Listener implements ActionListener{
-		public final double PROBABILITY = 0.005;
+		public final double PROBABILITY = 0.05;
 		public void actionPerformed(ActionEvent e){
-			if(Math.random() < 0.005){
+			if(Math.random() < PROBABILITY){
 				if(Math.random() < 0.5){
 					electrons.add(new Electron((int)(Math.random()*760) + 20 + frame.x, (int)(Math.random()*560) + 20 + frame.y));
 				}
