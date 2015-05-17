@@ -34,7 +34,7 @@ public class Screen extends JPanel{
 	class Key extends KeyAdapter{
 		public void keyPressed(KeyEvent e){
 			if(e.getKeyCode() == KeyEvent.VK_LEFT){
-				
+					
 			}
 			if(e.getKeyCode() == KeyEvent.VK_RIGHT){
 				

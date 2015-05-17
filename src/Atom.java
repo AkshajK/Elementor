@@ -9,16 +9,21 @@ public class Atom {
 	public Atom(){
 		color = Color.BLACK;
 		x = 400; y = 300;
-		radius = 50;
+		dx = 0; dy = 0;
+		radius = 25;
 	}
 
 	public void draw(Graphics buffer){
 		buffer.setColor(color);
-		buffer.fillOval(x, y, radius, radius);
+		buffer.fillOval(x-radius, y-radius, 2*radius, 2*radius);
 	}
 	
 	public void update(){
 		x += dx;
 		y += dy;
+	}
+	
+	public boolean intersect(Subatomic particle){
+		return Math.sqrt(Math.pow(x-particle.getX(), 2) + Math.pow(y-particle.getY(),  2)) < radius;
 	}
 }
