@@ -23,7 +23,7 @@ public class Screen extends JPanel{
 	private JLabel name, chemical, positive, negative, charge, score, winlose, time;
 	private boolean up=false,down=false,left=false,right=false, playing;
 
-	private JPanel game, info, top, particles, element;
+	private JPanel info, top, particles, element;
 	private double KEYACCELERATION = 1;
 
 	private Rectangle frame;
@@ -53,8 +53,8 @@ public class Screen extends JPanel{
 		Timer update = new Timer(10, new Listener());
 		update.start();
 		
-		Timer timer = new Timer(10, new Checker());
-		timer.start();
+		//Timer timer = new Timer(10, new Checker());
+		//timer.start();
 		
 		Timer keyPress = new Timer(5, new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
@@ -116,7 +116,7 @@ public class Screen extends JPanel{
 			}
 			else{
 				if(e.getKeyCode() == KeyEvent.VK_SPACE){
-					setFocusable(false);
+					playing = true;
 					Main.restart();
 				}
 			}
@@ -181,7 +181,6 @@ public class Screen extends JPanel{
 					name.setText(elements[player.getProtonNum()-1] + " (" + elems[player.getProtonNum() - 1] + ")");
 					name.setFont(new Font("Sans Serif", Font.BOLD, 20));
 				}
-				//particles.setText("Protons: " + player.getProtonNum() + " Electrons: " + player.getElectronNum());
 				if(player.getProtonNum() - player.getElectronNum() > 0){
 					charge.setText("Net charge: " + "+" + (player.getProtonNum() - player.getElectronNum()));
 				}
@@ -199,18 +198,23 @@ public class Screen extends JPanel{
 				DecimalFormat df = new DecimalFormat("#.##");
 				time.setText(df.format((Double.parseDouble(time.getText()) + 0.01)));
 				score.setText(player.getScore()+"");
-				//winlose.setText("Net charge: " + (player.getProtonNum() - player.getElectronNum()));
 				time.setFont(new Font("Sans Serif", Font.BOLD, 30));
 				winlose.setFont(new Font("Sans Serif", Font.BOLD, 30));
-	//			winlose.setHorizontalAlignment(SwingConstants.CENTER);
 				score.setFont(new Font("Sans Serif", Font.BOLD, 30));
-				repaint();
-			}
-			else{
 				
+				repaint();
+				
+				if(Math.abs(player.getProtonNum() - player.getElectronNum()) > 2)
+					lose();
 			}
+			
 		}
-		
+		public void lose(){
+			winlose.setText("Game over!");
+			winlose.setHorizontalAlignment(SwingConstants.CENTER);
+			top.add(winlose, BorderLayout.CENTER);
+			playing = false;
+		}
 		public void win(){
 			winlose.add(new JLabel("You win!"));
 			playing = false;
