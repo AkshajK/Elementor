@@ -25,6 +25,10 @@ public abstract class Subatomic {
 		return y;
 	}
 	
+	public int getRadius(){
+		return radius;
+	}
+	
 	public void setX(int x){
 		this.x = x;
 	}
@@ -35,6 +39,6 @@ public abstract class Subatomic {
 	
 	public void draw(Graphics buffer){
 		buffer.setColor(color);
-		buffer.fillOval(x, y, radius, radius);
+		buffer.fillOval(x-radius, y-radius, 2*radius, 2*radius);
 	}
 }

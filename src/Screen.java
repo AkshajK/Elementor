@@ -14,7 +14,7 @@ public class Screen extends JPanel{
 	private BufferedImage image;
 	private Graphics buffer;
 	private Atom player;
-	private HashSet<Subatomic> particles;
+	private JPanel info;
 	private final double KEYACCELERATION = 1; //change in acceleration to move per millisecond
 	private HashSet<Subatomic> protons, electrons;
 	
@@ -22,6 +22,8 @@ public class Screen extends JPanel{
 		setSize(800, 600);
 		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 		buffer = image.getGraphics();
+		
+		info = new JPanel();
 		
 		player = new Atom();
 		protons = new HashSet<Subatomic>();
@@ -35,6 +37,7 @@ public class Screen extends JPanel{
 		
 		addKeyListener(new Key());
 		setFocusable(true);
+		add(info);
 	}
 	
 	@Override
@@ -95,6 +98,11 @@ public class Screen extends JPanel{
 	
 	class Checker implements ActionListener{
 		public void actionPerformed(ActionEvent e){
+			if(Math.abs(protons.size() - electrons.size()) > 2)
+				lose();
+		}
+		
+		public void lose(){
 			
 		}
 	}
