@@ -25,7 +25,7 @@ public abstract class Subatomic {
 		return y;
 	}
 	
-	public int getRadius(){
+	public int getRadius() {
 		return radius;
 	}
 	
