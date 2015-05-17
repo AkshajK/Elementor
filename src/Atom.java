@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class Atom {
 	private Color color;
 	private double dx, dy, ax, ay;
-	private final double MAX = 5;
+	private final double FRICTION = 0.995;
+	private final double MAXVELOCITY = 5;
 	private int x, y, radius;
 	private int protonNum=1, electronNum=1;
 	private final double electronRatio=1.2;
@@ -159,8 +160,8 @@ public class Atom {
 		return x;
 	}
 	
-	public double getaX() {
-		return ax;
+	public double getdX() {
+		return dx;
 	}
 	
 	public void setX(int x){
@@ -186,8 +187,8 @@ public class Atom {
 		protonNum++;
 	}
 
-	public void setaX(double ax) {
-		if((this.dx < MAX || ax < this.ax) && (this.dx > -1*MAX || ax > this.ax)) this.ax = ax;
+	public void setdX(double dx) {
+		this.dx = dx;
 		
 	}
 	
@@ -195,12 +196,12 @@ public class Atom {
 		return y;
 	}
 
-	public double getaY() {
-		return ay;
+	public double getdY() {
+		return dy;
 	}
 
-	public void setaY(double ay) {
-		if((this.dy < MAX || ay < this.ay) && (this.dy > -1*MAX || ay > this.ay)) this.ay = ay;
+	public void setdY(double dy) {
+		 this.dy = dy;
 		
 	}
 	
@@ -286,10 +287,10 @@ public class Atom {
 	public void update(){
 		dx += ax;
 		dy += ay;
-		if(dx > MAX) dx = MAX;
-		if(dx < -1*MAX) dx = -1*MAX;
-		if(dy > MAX) dy = MAX;
-		if(dy < -1*MAX) dy = -1*MAX;
+		dx *= FRICTION;
+		dy *= FRICTION;
+		if(dx > 5) dx = 5;
+		if(dy > 5) dy = 5;
 		x = x+(int)dx;
 		y = y+(int)dy;
 	}

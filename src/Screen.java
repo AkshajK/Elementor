@@ -21,7 +21,7 @@ public class Screen extends JPanel{
 
 	private JPanel game, info, winlose;
 	private double KEYACCELERATION = 5;
-	private double KEYACCELERATION2 = 10;
+
 	private Rectangle frame;
 	
 
@@ -78,23 +78,14 @@ public class Screen extends JPanel{
 	
 	class Key extends KeyAdapter{
 		public void keyPressed(KeyEvent e){
-			if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-
-				if(player.getaX() <= 0) player.setX(player.getX() - KEYACCELERATION);
-				else player.setX(player.getX() - KEYACCELERATION2);
-			}
-			if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				if(player.getX() >= 0) player.setX(player.getX() + KEYACCELERATION);
-				else player.setX(player.getX() + KEYACCELERATION2);
-			}
-			if(e.getKeyCode() == KeyEvent.VK_UP) {
-				if(player.getY() <= 0) player.setY(player.getY() - KEYACCELERATION);
-				else player.setY(player.getY() - KEYACCELERATION2);
-			}
-			if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-				if(player.getX() >= 0) player.setY(player.getY() + KEYACCELERATION);
-				else player.setY(player.getY() + KEYACCELERATION2);
-			}
+			if(e.getKeyCode() == KeyEvent.VK_LEFT) 
+				player.setdX(player.getdX() - KEYACCELERATION);
+			if(e.getKeyCode() == KeyEvent.VK_RIGHT) 
+				player.setdX(player.getdX() + KEYACCELERATION);
+			if(e.getKeyCode() == KeyEvent.VK_UP) 
+				player.setdY(player.getdY() - KEYACCELERATION);
+			if(e.getKeyCode() == KeyEvent.VK_DOWN) 
+				player.setdY(player.getdY() + KEYACCELERATION);
 		}
 	}
 	
