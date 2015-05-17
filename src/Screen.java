@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.HashSet;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -13,6 +14,7 @@ public class Screen extends JPanel{
 	private BufferedImage image;
 	private Graphics buffer;
 	private Atom player;
+	private HashSet<Subatomic> particles;
 	
 	public Screen(){
 		setSize(800, 600);
@@ -20,7 +22,7 @@ public class Screen extends JPanel{
 		buffer = image.getGraphics();
 		
 		player = new Atom();
-		
+		particles = new HashSet<Subatomic>();
 		Timer timer = new Timer(10, new Listener());
 		timer.start();
 		

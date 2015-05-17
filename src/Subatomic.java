@@ -11,12 +11,26 @@ public abstract class Subatomic {
 		this.radius = radius;
 	}
 	
+	public Subatomic(Color color, int x, int y, int radius){
+		this(color, radius);
+		this.x = x;
+		this.y = y;
+	}
+	
 	public int getX(){
 		return x;
 	}
 	
 	public int getY(){
 		return y;
+	}
+	
+	public void setX(int x){
+		this.x = x;
+	}
+	
+	public void setY(int y){
+		this.y = y;
 	}
 	
 	public void draw(Graphics buffer){
