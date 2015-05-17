@@ -37,10 +37,6 @@ public abstract class Subatomic {
 		this.y = y;
 	}
 	
-	public int getRadius() {
-		return radius;
-	}
-	
 	public Color getColor() {
 		return color;
 	}
