@@ -216,7 +216,7 @@ public class Screen extends JPanel{
 			playing = false;
 		}
 		public void win(){
-			winlose.add(new JLabel("You win!"));
+			winlose.setText("You win!");
 			playing = false;
 		}
 	}
