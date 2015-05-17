@@ -6,6 +6,6 @@ public class Proton extends Subatomic{
 		super(Color.GREEN, 50);
 	}
 	public Proton(int x, int y){
-		super(Color.GREEN, x, y, 20);
+		super(Color.GREEN, x, y, 15);
 	}
 }
