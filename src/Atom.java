@@ -11,7 +11,8 @@ public class Atom {
 	private int protonNum=1, electronNum=1;
 	private final double electronRatio=1.2;
 	private CirclePack[] packData;
-	
+	private int score;
+	private int numUpdates;
 	public Atom(){
 		color = Color.BLACK;
 		x = 0; y = 0;
@@ -19,6 +20,8 @@ public class Atom {
 		radius = 25;
 		packData = new CirclePack[121];
 		initProtonPos();
+		score = 0;
+		numUpdates = 0;
 	}
 	
 	private void initProtonPos() {
@@ -283,8 +286,25 @@ public class Atom {
 		}
 	}
 	
+	/*class Orbital{
+		private int num, radius;
+		
+		public Orbital(int num, int radius){
+			this.num = num;
+			this.radius = radius;
+		}
+		
+		public void add(){
+			
+		}
+	}*/
+	
+	public int getScore() {
+		return score;
+	}
 	
 	public void update(){
+		numUpdates++;
 		dx += ax;
 		dy += ay;
 		dx *= FRICTION;
@@ -293,6 +313,7 @@ public class Atom {
 		if(dy > 5) dy = 5;
 		x = x+(int)dx;
 		y = y+(int)dy;
+		score = 1000*(this.protonNum + this.electronNum) + numUpdates;
 	}
 	
 	public boolean intersect(Subatomic particle){

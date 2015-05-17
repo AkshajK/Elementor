@@ -7,20 +7,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 import java.util.HashSet;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 public class Screen extends JPanel{
 	private BufferedImage image;
 	private Graphics buffer;
 	private Atom player;
-	private JLabel name, chemical, positive, negative, charge, TEMP;
+	private JLabel name, chemical, positive, negative, charge, TEMP, score, winlose, time;
 
-	private JPanel game, info, winlose;
-	private double KEYACCELERATION = 5;
+	private JPanel game, info, top;
+	private double KEYACCELERATION = 2;
+	//private int seconds, centiseconds;
 
 	private Rectangle frame;
 	
@@ -37,6 +40,7 @@ public class Screen extends JPanel{
 		buffer = image.getGraphics();
 		frame = new Rectangle();
 		info = new JPanel();
+		
 		
 		player = new Atom();
 		protons = new HashSet<Subatomic>();
@@ -66,9 +70,15 @@ public class Screen extends JPanel{
 		info.add(TEMP);
 		add(info, BorderLayout.SOUTH);
 		
-		winlose = new JPanel();
-
-		
+		top = new JPanel();
+		top.setLayout(new BorderLayout());
+		score = new JLabel("0");
+		top.add(score, BorderLayout.WEST);
+		winlose = new JLabel();
+		top.add(winlose, BorderLayout.CENTER);
+		time = new JLabel("0.00");
+		top.add(time, BorderLayout.EAST);
+		add(top, BorderLayout.NORTH);
 	}
 	
 	@Override
@@ -90,14 +100,14 @@ public class Screen extends JPanel{
 	}
 	
 	class Listener implements ActionListener{
-		public final double PROBABILITY = 0.005;
+		public final double PROBABILITY = 0.05;
 		public void actionPerformed(ActionEvent e){
-			if(Math.random() < 0.005){
+			if(Math.random() < PROBABILITY){
 				if(Math.random() < 0.5){
-					electrons.add(new Electron((int)(Math.random()*760) + 20 + frame.x, (int)(Math.random()*560) + 20 + frame.y));
+					electrons.add(new Electron((int)(Math.random()*3*getWidth()) - getWidth() + frame.x, (int)(Math.random()*3*getHeight()) - getHeight() + frame.y));
 				}
 				else{
-					protons.add(new Proton((int)(Math.random()*760) + 20 + frame.x, (int)(Math.random()*560) + 20 + frame.y));
+					protons.add(new Proton((int)(Math.random()*3*getWidth()) - getWidth() + frame.x, (int)(Math.random()*3*getHeight()) - getHeight() + frame.y));
 				}
 			}
 			
@@ -142,6 +152,9 @@ public class Screen extends JPanel{
 			charge.setText("Net charge: " + (player.getProtonNum() - player.getElectronNum()));
 			TEMP.setText("x: " + player.getX() + " y: " + player.getY());
 			
+			DecimalFormat df = new DecimalFormat("#.##");
+			time.setText(df.format((Double.parseDouble(time.getText()) + 0.01)));
+			score.setText(player.getScore()+"");
 			repaint();
 		}
 		
@@ -159,8 +172,9 @@ public class Screen extends JPanel{
 		}
 		
 		public void lose(){
-			winlose.add(new JLabel("Game over!"));
-			add(winlose, BorderLayout.NORTH);
+			winlose.setText("Game over!");
+			winlose.setHorizontalAlignment(SwingConstants.CENTER);
+			top.add(winlose, BorderLayout.CENTER);
 		}
 	}
 }
