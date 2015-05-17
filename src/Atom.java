@@ -6,6 +6,7 @@ public class Atom {
 	private double dx, dy, ax, ay;
 	private final double MAX = 3;
 	private int x, y, radius;
+	private int protonNum=1, electronNum=1;
 	
 	public Atom(){
 		color = Color.BLACK;
@@ -46,9 +47,11 @@ public class Atom {
 		return radius;
 	}
 
-	public void draw(Graphics buffer, int x, int y, int width, int height){
+	public void draw(Graphics buffer, int width, int height){
 		buffer.setColor(color);
 		buffer.fillOval(width/2-radius, height/2-radius, 2*radius, 2*radius);
+	//	drawProtons(width/2, height/2);
+	//	drawElectrons(width/2, height/2);
 	}
 	
 	public void update(){

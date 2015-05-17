@@ -105,7 +105,7 @@ public class Screen extends JPanel{
 			buffer.setColor(Color.WHITE);
 			buffer.fillRect(0, 0, getWidth(), getHeight());
 			player.update();
-			player.draw(buffer, frame.x, frame.y, getWidth(), getHeight());
+			player.draw(buffer, getWidth(), getHeight());
 			
 			frame.setBounds(player.getX() - getWidth()/2, player.getY() - getHeight()/2, getWidth(), getHeight());
 			
