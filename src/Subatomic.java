@@ -41,12 +41,12 @@ public abstract class Subatomic {
 		return color;
 	}
 	
-	public void draw(Graphics buffer){
+	public void draw(Graphics buffer, int x, int y){
 		buffer.setColor(color);
-		buffer.fillOval(x-radius, y-radius, 2*radius, 2*radius);
+		buffer.fillOval(this.x-x-radius, this.y-y-radius, 2*radius, 2*radius);
 	}
 	
 	public boolean intersect(Subatomic s) {
-		return Math.sqrt(Math.pow(x-s.getX(), 2) + Math.pow(y-s.getY(),  2)) < radius;
+		return Math.sqrt(Math.pow(x-s.getX(), 2) + Math.pow(y-s.getY(),  2)) < radius + s.getRadius();
 	}
 }

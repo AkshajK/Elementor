@@ -12,7 +12,7 @@ public class Atom {
 	
 	public Atom(){
 		color = Color.BLACK;
-		x = 400; y = 300;
+		x = 2000; y = 1500;
 		dx = 0; dy = 0;
 		radius = 25;
 		surrounding = new ArrayList<>();
@@ -21,6 +21,11 @@ public class Atom {
 	public void addSubatomic(Subatomic s) {
 		surrounding.add(s);
 	}
+	
+	public int getX(){
+		return x;
+	}
+	
 	public double getdX() {
 		return dx;
 	}
@@ -29,6 +34,10 @@ public class Atom {
 		this.dx = dx;
 		if(dx > MAX) dx = MAX;
 		if(dx < -1*MAX) dx = MAX;
+	}
+	
+	public int getY(){
+		return y;
 	}
 
 	public double getdY() {
@@ -45,13 +54,13 @@ public class Atom {
 		return radius;
 	}
 
-	public void draw(Graphics buffer){
+	public void draw(Graphics buffer, int x, int y){
 		buffer.setColor(color);
-		buffer.fillOval((int)(x-radius), (int)(y-radius), (int)(2*radius), (int)(2*radius));
-		for(Subatomic s : surrounding) {
+		buffer.fillOval(400, 300, (int)(2*radius), (int)(2*radius));
+		/*for(Subatomic s : surrounding) {
 			buffer.setColor(s.getColor());
 			buffer.fillOval(s.getX()-s.getRadius(), s.getY()-s.getRadius(), 2*s.getRadius(), 2*s.getRadius());
-		}
+		}*/
 	}
 	
 	public void update(){
@@ -64,10 +73,10 @@ public class Atom {
 	}
 	
 	public boolean intersect(Subatomic particle){
-		for(Subatomic s : surrounding) {
+		/*for(Subatomic s : surrounding) {
 			if(s.intersect(particle))
 				return true;
-		}
-		return Math.sqrt(Math.pow(x-particle.getX(), 2) + Math.pow(y-particle.getY(),  2)) < radius;
+		}*/
+		return Math.sqrt(Math.pow(x-particle.getX(), 2) + Math.pow(y-particle.getY(),  2)) < radius + particle.getRadius();
 	}
 }

@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -16,8 +17,10 @@ public class Screen extends JPanel{
 	private BufferedImage image;
 	private Graphics buffer;
 	private Atom player;
-	private JLabel name, chemical, positive, negative, charge;
+	private JLabel name, chemical, positive, negative, charge, TEMP;
 	private JPanel game, info;
+	private final int WIDTH = 4000, HEIGHT = 3000;
+	private Rectangle frame;
 	private final double KEYACCELERATION = 1; //change in acceleration to move per millisecond
 	private HashSet<Subatomic> protons, electrons;
 	private int electronNum=1, protonNum=1;
@@ -30,6 +33,7 @@ public class Screen extends JPanel{
 		setLayout(new BorderLayout());
 		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 		buffer = image.getGraphics();
+		frame = new Rectangle((WIDTH-getWidth())/2, (HEIGHT-getHeight())/2, getWidth(), getHeight());
 		
 		game = new JPanel();
 		info = new JPanel();
@@ -41,7 +45,7 @@ public class Screen extends JPanel{
 		Timer update = new Timer(10, new Listener());
 		update.start();
 		
-		Timer timer = new Timer(10000, new Checker());
+		Timer timer = new Timer(1000, new Checker());
 		timer.start();
 		
 		addKeyListener(new Key());
@@ -52,12 +56,14 @@ public class Screen extends JPanel{
 		positive = new JLabel();
 		negative = new JLabel();
 		charge = new JLabel();
+		TEMP = new JLabel();
 		
 		info.add(chemical);
 		info.add(name);
 		info.add(positive);
 		info.add(negative);
 		info.add(charge);
+		info.add(TEMP);
 		add(info, BorderLayout.SOUTH);
 	}
 	
@@ -88,35 +94,41 @@ public class Screen extends JPanel{
 		public void actionPerformed(ActionEvent e){
 			if(Math.random() < 0.005){
 				if(Math.random() < 0.5){
-					electrons.add(new Electron((int)(Math.random()*760) + 20, (int)(Math.random()*560) + 20));
+					electrons.add(new Electron((int)(Math.random()*760) + 20 + frame.x, (int)(Math.random()*560) + 20 + frame.y));
 				}
 				else{
-					protons.add(new Proton((int)(Math.random()*760) + 20, (int)(Math.random()*560) + 20));
+					protons.add(new Proton((int)(Math.random()*760) + 20 + frame.x, (int)(Math.random()*560) + 20 + frame.y));
 				}
 			}
 			
 			buffer.setColor(Color.WHITE);
 			buffer.fillRect(0, 0, getWidth(), getHeight());
 			player.update();
-			player.draw(buffer);
+			player.draw(buffer, frame.x, frame.y);
+			
+			frame.setBounds(player.getX() - getWidth()/2, player.getY() - getHeight()/2, getWidth(), getHeight());
 			
 			HashSet<Subatomic> copy = new HashSet<Subatomic>(electrons);
 			for(Subatomic electron : copy){
-				if(player.intersect(electron)) {
-					player.addSubatomic(electron);
-					electronNum++;
-					electrons.remove(electron);
+				if(frame.contains(electron.getX(), electron.getY())){
+					if(player.intersect(electron)) {
+						player.addSubatomic(electron);
+						electronNum++;
+						electrons.remove(electron);
+					}
+					else electron.draw(buffer, frame.x, frame.y);
 				}
-				else electron.draw(buffer);
 			}
 			copy = new HashSet<Subatomic>(protons);
 			for(Subatomic proton: copy){
-				if(player.intersect(proton)) {
-					player.addSubatomic(proton);
-					protonNum++;
-					protons.remove(proton);
+				if(frame.contains(proton.getX(), proton.getY())){
+					if(player.intersect(proton)) {
+						player.addSubatomic(proton);
+						protonNum++;
+						protons.remove(proton);
+					}
+					else proton.draw(buffer, frame.x, frame.y);
 				}
-				else proton.draw(buffer);
 			}
 			
 			name.setText(elements[protonNum-1]);
@@ -124,6 +136,7 @@ public class Screen extends JPanel{
 			positive.setText("Protons: " + protonNum);
 			negative.setText("Electrons: " + electronNum);
 			charge.setText("Net charge: " + (protonNum - electronNum));
+			TEMP.setText("x: " + player.getX() + " y: " + player.getY());
 			
 			repaint();
 		}
@@ -131,6 +144,7 @@ public class Screen extends JPanel{
 	
 	class Checker implements ActionListener{
 		public void actionPerformed(ActionEvent e){
+			//System.out.println(frame.x + " " + frame.y + " " + player.getX() + " " + player.getY());
 			if(Math.abs(protonNum - electronNum) > 2)
 				lose();
 		}
