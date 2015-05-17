@@ -6,7 +6,7 @@ public class Atom {
 	private Color color;
 	private double dx, dy, ax, ay;
 	private final double FRICTION = 0.995;
-	private final double MAXVELOCITY = 5;
+	private final double MAXVELOCITY = 10;
 	private int x, y, radius;
 	private int protonNum=1, electronNum=1;
 	private final double electronRatio=1.2;
@@ -350,8 +350,10 @@ public class Atom {
 		dy += ay;
 		dx *= FRICTION;
 		dy *= FRICTION;
-		if(dx > 5) dx = 5;
-		if(dy > 5) dy = 5;
+		if(dx > MAXVELOCITY) dx = MAXVELOCITY;
+		if(dy > MAXVELOCITY) dy = MAXVELOCITY;
+		if(dx < -1*MAXVELOCITY) dx = -1*MAXVELOCITY;
+		if(dy < -1*MAXVELOCITY) dy = -1*MAXVELOCITY;
 		x = x+(int)dx;
 		y = y+(int)dy;
 		score = 1000*(this.protonNum + this.electronNum) + numUpdates;
