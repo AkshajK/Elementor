@@ -6,6 +6,6 @@ public class Electron extends Subatomic{
 		super(Color.RED, 50);
 	}
 	public Electron(int x, int y){
-		super(Color.RED, x, y, 20);
+		super(Color.RED, x, y, 15);
 	}
 }
