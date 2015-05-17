@@ -56,7 +56,7 @@ public class Atom {
 
 	public void draw(Graphics buffer, int x, int y){
 		buffer.setColor(color);
-		buffer.fillOval(400, 300, (int)(2*radius), (int)(2*radius));
+		buffer.fillOval(375, 275, (int)(2*radius), (int)(2*radius));
 		/*for(Subatomic s : surrounding) {
 			buffer.setColor(s.getColor());
 			buffer.fillOval(s.getX()-s.getRadius(), s.getY()-s.getRadius(), 2*s.getRadius(), 2*s.getRadius());

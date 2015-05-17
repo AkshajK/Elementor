@@ -115,6 +115,7 @@ public class Screen extends JPanel{
 						player.addSubatomic(electron);
 						electronNum++;
 						electrons.remove(electron);
+						System.out.println(electron.getX() + " " + electron.getY());
 					}
 					else electron.draw(buffer, frame.x, frame.y);
 				}
@@ -126,6 +127,7 @@ public class Screen extends JPanel{
 						player.addSubatomic(proton);
 						protonNum++;
 						protons.remove(proton);
+						System.out.println(proton.getX() + " " + proton.getY());
 					}
 					else proton.draw(buffer, frame.x, frame.y);
 				}
