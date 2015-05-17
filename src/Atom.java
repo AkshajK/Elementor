@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Atom {
 	private Color color;
 	private double dx, dy, ax, ay;
-	private final double MAX = 3;
+	private final double MAX = 5;
 	private int x, y, radius;
 	
 	public Atom(){
@@ -20,28 +20,26 @@ public class Atom {
 		return x;
 	}
 	
-	public double getdX() {
-		return dx;
+	public double getaX() {
+		return ax;
 	}
 
-	public void setdX(double dx) {
-		this.dx = dx;
-		if(dx > MAX) dx = MAX;
-		if(dx < -1*MAX) dx = MAX;
+	public void setaX(double ax) {
+		if((this.dx < MAX || ax < this.ax) && (this.dx > -1*MAX || ax > this.ax)) this.ax = ax;
+		
 	}
 	
 	public int getY(){
 		return y;
 	}
 
-	public double getdY() {
-		return dy;
+	public double getaY() {
+		return ay;
 	}
 
-	public void setdY(double dy) {
-		this.dy = dy;
-		if(dy > MAX) dy = MAX;
-		if(dy < -1*MAX) dy = MAX;
+	public void setaY(double ay) {
+		if((this.dy < MAX || ay < this.ay) && (this.dy > -1*MAX || ay > this.ay)) this.ay = ay;
+		
 	}
 	
 	public double getRadius() {
@@ -54,6 +52,12 @@ public class Atom {
 	}
 	
 	public void update(){
+		dx += ax;
+		dy += ay;
+		if(dx > MAX) dx = MAX;
+		if(dx < -1*MAX) dx = -1*MAX;
+		if(dy > MAX) dy = MAX;
+		if(dy < -1*MAX) dy = -1*MAX;
 		x = x+(int)dx;
 		y = y+(int)dy;
 	}
