@@ -18,6 +18,7 @@ public class Screen extends JPanel{
 	private Graphics buffer;
 	private Atom player;
 	private JLabel name, chemical, positive, negative, charge, TEMP;
+
 	private JPanel game, info;
 	private final int WIDTH = 4000, HEIGHT = 3000;
 	private Rectangle frame;
@@ -36,9 +37,7 @@ public class Screen extends JPanel{
 		setLayout(new BorderLayout());
 		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 		buffer = image.getGraphics();
-		frame = new Rectangle((WIDTH-getWidth())/2, (HEIGHT-getHeight())/2, getWidth(), getHeight());
-		
-		game = new JPanel();
+		frame = new Rectangle();
 		info = new JPanel();
 		
 		player = new Atom();
@@ -82,6 +81,7 @@ public class Screen extends JPanel{
 	class Key extends KeyAdapter{
 		public void keyPressed(KeyEvent e){
 			if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+
 				if(player.getaX() <= 0) player.setaX(player.getaX() - KEYACCELERATION);
 				else player.setaX(player.getaX() - KEYACCELERATION2);
 			}
@@ -115,7 +115,7 @@ public class Screen extends JPanel{
 			buffer.setColor(Color.WHITE);
 			buffer.fillRect(0, 0, getWidth(), getHeight());
 			player.update();
-			player.draw(buffer, frame.x, frame.y);
+			player.draw(buffer, getWidth(), getHeight());
 			
 			frame.setBounds(player.getX() - getWidth()/2, player.getY() - getHeight()/2, getWidth(), getHeight());
 			

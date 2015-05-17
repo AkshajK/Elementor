@@ -1,17 +1,16 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
-
 
 public class Atom {
 	private Color color;
 	private double dx, dy, ax, ay;
 	private final double MAX = 5;
 	private int x, y, radius;
+	private int protonNum=1, electronNum=1;
 	
 	public Atom(){
 		color = Color.BLACK;
-		x = 2000; y = 1500;
+		x = 0; y = 0;
 		dx = 0; dy = 0;
 		radius = 25;
 	}
@@ -46,9 +45,11 @@ public class Atom {
 		return radius;
 	}
 
-	public void draw(Graphics buffer, int x, int y){
+	public void draw(Graphics buffer, int width, int height){
 		buffer.setColor(color);
-		buffer.fillOval(375, 275, (int)(2*radius), (int)(2*radius));
+		buffer.fillOval(width/2-radius, height/2-radius, 2*radius, 2*radius);
+	//	drawProtons(width/2, height/2);
+	//	drawElectrons(width/2, height/2);
 	}
 	
 	public void update(){
