@@ -48,9 +48,9 @@ public class Atom {
 		return radius;
 	}
 
-	public void draw(Graphics buffer, int x, int y){
+	public void draw(Graphics buffer, int x, int y, int width, int height){
 		buffer.setColor(color);
-		buffer.fillOval(375, 275, (int)(2*radius), (int)(2*radius));
+		buffer.fillOval(width/2-radius, height/2-radius, 2*radius, 2*radius);
 	}
 	
 	public void update(){
