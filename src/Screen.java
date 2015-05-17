@@ -19,9 +19,9 @@ public class Screen extends JPanel{
 	private Atom player;
 	private JLabel name, chemical, positive, negative, charge, TEMP;
 
-	private JPanel game, info;
+	private JPanel game, info, winlose;
 	private double KEYACCELERATION = 5;
-	private double KEYACCELERATION2 = 5;
+	private double KEYACCELERATION2 = 10;
 	private Rectangle frame;
 	
 
@@ -66,7 +66,7 @@ public class Screen extends JPanel{
 		info.add(TEMP);
 		add(info, BorderLayout.SOUTH);
 		
-		//
+		winlose = new JPanel();
 
 		
 	}
@@ -139,15 +139,24 @@ public class Screen extends JPanel{
 					else proton.draw(buffer, frame.x, frame.y);
 				}
 			}
-			
-			name.setText(elements[player.getProtonNum()-1]);
-			chemical.setText(elems[player.getProtonNum()-1]);
+			if(player.getProtonNum() == 118){
+				win();
+			}
+			else{
+				name.setText(elements[player.getProtonNum()-1]);
+				chemical.setText(elems[player.getProtonNum()-1]);
+			}
 			positive.setText("Protons: " + player.getProtonNum());
 			negative.setText("Electrons: " + player.getElectronNum());
 			charge.setText("Net charge: " + (player.getProtonNum() - player.getElectronNum()));
 			TEMP.setText("x: " + player.getX() + " y: " + player.getY());
 			
 			repaint();
+		}
+		
+		public void win(){
+			winlose.add(new JLabel("You win!"));
+			add(winlose, BorderLayout.NORTH);
 		}
 	}
 	
@@ -159,7 +168,8 @@ public class Screen extends JPanel{
 		}
 		
 		public void lose(){
-			
+			winlose.add(new JLabel("Game over!"));
+			add(winlose, BorderLayout.NORTH);
 		}
 	}
 }
