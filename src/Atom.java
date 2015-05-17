@@ -8,18 +8,12 @@ public class Atom {
 	private double dx, dy, ax, ay;
 	private final double MAX = 20;
 	private int x, y, radius;
-	private ArrayList<Subatomic> surrounding;
 	
 	public Atom(){
 		color = Color.BLACK;
 		x = 2000; y = 1500;
 		dx = 0; dy = 0;
 		radius = 25;
-		surrounding = new ArrayList<>();
-	}
-	
-	public void addSubatomic(Subatomic s) {
-		surrounding.add(s);
 	}
 	
 	public int getX(){
@@ -57,26 +51,14 @@ public class Atom {
 	public void draw(Graphics buffer, int x, int y){
 		buffer.setColor(color);
 		buffer.fillOval(375, 275, (int)(2*radius), (int)(2*radius));
-		/*for(Subatomic s : surrounding) {
-			buffer.setColor(s.getColor());
-			buffer.fillOval(s.getX()-s.getRadius(), s.getY()-s.getRadius(), 2*s.getRadius(), 2*s.getRadius());
-		}*/
 	}
 	
 	public void update(){
 		x = x+(int)dx;
 		y = y+(int)dy;
-		for(Subatomic s : surrounding) {
-			s.setX(s.getX()+(int)dx);
-			s.setY(s.getY()+(int)dy);
-		}
 	}
 	
 	public boolean intersect(Subatomic particle){
-		/*for(Subatomic s : surrounding) {
-			if(s.intersect(particle))
-				return true;
-		}*/
 		return Math.sqrt(Math.pow(x-particle.getX(), 2) + Math.pow(y-particle.getY(),  2)) < radius + particle.getRadius();
 	}
 }

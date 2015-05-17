@@ -112,7 +112,6 @@ public class Screen extends JPanel{
 			for(Subatomic electron : copy){
 				if(frame.contains(electron.getX(), electron.getY())){
 					if(player.intersect(electron)) {
-						player.addSubatomic(electron);
 						electronNum++;
 						electrons.remove(electron);
 						System.out.println(electron.getX() + " " + electron.getY());
@@ -124,7 +123,6 @@ public class Screen extends JPanel{
 			for(Subatomic proton: copy){
 				if(frame.contains(proton.getX(), proton.getY())){
 					if(player.intersect(proton)) {
-						player.addSubatomic(proton);
 						protonNum++;
 						protons.remove(proton);
 						System.out.println(proton.getX() + " " + proton.getY());
