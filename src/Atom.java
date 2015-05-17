@@ -6,12 +6,15 @@ public class Atom {
 	private Color color;
 	private double x, y, radius;
 	private double dx, dy, ax, ay;
+	private final double MAX = 20;
 	public double getdX() {
 		return dx;
 	}
 
 	public void setdX(double dx) {
 		this.dx = dx;
+		if(dx > MAX) dx = MAX;
+		if(dx < -1*MAX) dx = MAX;
 	}
 
 	public double getdY() {
@@ -20,6 +23,8 @@ public class Atom {
 
 	public void setdY(double dy) {
 		this.dy = dy;
+		if(dy > MAX) dy = MAX;
+		if(dy < -1*MAX) dy = MAX;
 	}
 	
 	public double getRadius() {
