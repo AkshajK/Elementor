@@ -5,6 +5,26 @@ import java.awt.Graphics;
 public class Atom {
 	private Color color;
 	private int x, y, radius;
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+	
+	public int getRadius() {
+		return radius;
+	}
+
 	private int dx, dy;
 	public Atom(){
 		color = Color.BLACK;

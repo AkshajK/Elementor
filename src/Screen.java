@@ -15,6 +15,7 @@ public class Screen extends JPanel{
 	private Graphics buffer;
 	private Atom player;
 	private HashSet<Subatomic> particles;
+	private int keySpeed = 5; //Number of pixels to move per keypress
 	
 	public Screen(){
 		setSize(800, 600);
@@ -35,11 +36,25 @@ public class Screen extends JPanel{
 	
 	class Key extends KeyAdapter{
 		public void keyPressed(KeyEvent e){
-			if(e.getKeyCode() == KeyEvent.VK_LEFT){
-					
+			if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+				int tmp = player.getX()-keySpeed;
+				if(tmp-player.getRadius()<0) tmp=0;
+				player.setX(tmp);
 			}
-			if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-				
+			if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				int tmp = player.getX()+keySpeed;
+				if(tmp+player.getRadius()>=getWidth()) tmp=getWidth();
+				player.setX(tmp);
+			}
+			if(e.getKeyCode() == KeyEvent.VK_UP) {
+				int tmp = player.getY()-keySpeed;
+				if(tmp-player.getRadius()<0) tmp=0;
+				player.setY(tmp);
+			}
+			if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+				int tmp = player.getY()+keySpeed;
+				if(tmp+player.getRadius()>=getHeight()) tmp=getHeight();
+				player.setY(tmp);
 			}
 		}
 	}
