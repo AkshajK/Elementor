@@ -78,14 +78,18 @@ public class Screen extends JPanel{
 			
 			HashSet<Subatomic> copy = new HashSet<Subatomic>(electrons);
 			for(Subatomic electron : copy){
-				if(player.intersect(electron))
+				if(player.intersect(electron)) {
+					player.addSubatomic(electron);
 					electrons.remove(electron);
+				}
 				else electron.draw(buffer);
 			}
 			copy = new HashSet<Subatomic>(protons);
 			for(Subatomic proton: copy){
-				if(player.intersect(proton))
+				if(player.intersect(proton)) {
+					player.addSubatomic(proton);
 					protons.remove(proton);
+				}
 				else proton.draw(buffer);
 			}
 			
