@@ -356,16 +356,13 @@ public class Atom {
 		if(dy < -1*MAXVELOCITY) dy = -1*MAXVELOCITY;
 		x = x+(int)dx;
 		y = y+(int)dy;
-		score = 1000*(this.protonNum + this.electronNum) + numUpdates;
+		score = 1000*(this.protonNum + this.electronNum) - numUpdates;
 	}
 	
 	public boolean intersect(Subatomic particle){
 		for(Subatomic s : getElectrons(x,y)) {
 			if(s.intersect(particle)) return true;
 		}
-//		for(Subatomic s : getProtons(x,y)) {
-//			if(s.intersect(particle)) return true;
-//		}
 		return Math.sqrt(Math.pow(x-particle.getX(), 2) + Math.pow(y-particle.getY(),  2)) < radius + particle.getRadius();
 	}
 }

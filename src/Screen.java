@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -149,6 +150,8 @@ public class Screen extends JPanel{
 			DecimalFormat df = new DecimalFormat("#.##");
 			time.setText(df.format((Double.parseDouble(time.getText()) + 0.01)));
 			score.setText(player.getScore()+"");
+			time.setFont(new Font("Sans Serif", Font.BOLD, 30));
+			score.setFont(new Font("Sans Serif", Font.BOLD, 30));
 			repaint();
 		}
 		
