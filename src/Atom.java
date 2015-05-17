@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Atom {
 	private Color color;
 	private double dx, dy, ax, ay;
-	private final double MAX = 20;
+	private final double MAX = 3;
 	private int x, y, radius;
 	
 	public Atom(){
