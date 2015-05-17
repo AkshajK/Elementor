@@ -17,6 +17,7 @@ public class Screen extends JPanel{
 	private JPanel info;
 	private final double KEYACCELERATION = 1; //change in acceleration to move per millisecond
 	private HashSet<Subatomic> protons, electrons;
+	private int electronNum=0, protonNum=0;
 	
 	public Screen(){
 		setSize(800, 600);
@@ -83,6 +84,7 @@ public class Screen extends JPanel{
 			for(Subatomic electron : copy){
 				if(player.intersect(electron)) {
 					player.addSubatomic(electron);
+					electronNum++;
 					electrons.remove(electron);
 				}
 				else electron.draw(buffer);
@@ -91,6 +93,7 @@ public class Screen extends JPanel{
 			for(Subatomic proton: copy){
 				if(player.intersect(proton)) {
 					player.addSubatomic(proton);
+					protonNum++;
 					protons.remove(proton);
 				}
 				else proton.draw(buffer);
