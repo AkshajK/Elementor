@@ -4,25 +4,25 @@ import java.awt.Graphics;
 
 public class Atom {
 	private Color color;
-	private int x, y, radius;
-	private int dx, dy, ax, ay;
-	public int getaX() {
+	private double x, y, radius;
+	private double dx, dy, ax, ay;
+	public double getaX() {
 		return ax;
 	}
 
-	public void setaX(int ax) {
+	public void setaX(double ax) {
 		this.ax = ax;
 	}
 
-	public int getaY() {
+	public double getaY() {
 		return ay;
 	}
 
-	public void setaY(int ay) {
+	public void setaY(double ay) {
 		this.ay = ay;
 	}
 	
-	public int getRadius() {
+	public double getRadius() {
 		return radius;
 	}
 
@@ -35,7 +35,7 @@ public class Atom {
 
 	public void draw(Graphics buffer){
 		buffer.setColor(color);
-		buffer.fillOval(x-radius, y-radius, 2*radius, 2*radius);
+		buffer.fillOval((int)(x-radius), (int)(y-radius), (int)(2*radius), (int)(2*radius));
 	}
 	
 	public void update(){
