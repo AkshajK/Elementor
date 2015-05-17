@@ -7,19 +7,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 import java.util.HashSet;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 public class Screen extends JPanel{
 	private BufferedImage image;
 	private Graphics buffer;
 	private Atom player;
-	private JLabel name, chemical, positive, negative, charge, TEMP;
+	private JLabel name, chemical, positive, negative, charge, score, winlose, time;
 
-	private JPanel game, info, winlose;
+	private JPanel game, info, top;
 	private double KEYACCELERATION = 2;
 
 	private Rectangle frame;
@@ -38,6 +40,7 @@ public class Screen extends JPanel{
 		frame = new Rectangle();
 		info = new JPanel();
 		
+		
 		player = new Atom();
 		protons = new HashSet<Subatomic>();
 		electrons = new HashSet<Subatomic>();
@@ -50,25 +53,28 @@ public class Screen extends JPanel{
 		
 		addKeyListener(new Key());
 		setFocusable(true);
-		//add(game, BorderLayout.CENTER);
 		name = new JLabel();
 		chemical = new JLabel();
 		positive = new JLabel();
 		negative = new JLabel();
 		charge = new JLabel();
-		TEMP = new JLabel();
 		
 		info.add(chemical);
 		info.add(name);
 		info.add(positive);
 		info.add(negative);
 		info.add(charge);
-		info.add(TEMP);
 		add(info, BorderLayout.SOUTH);
 		
-		winlose = new JPanel();
-
-		
+		top = new JPanel();
+		top.setLayout(new BorderLayout());
+		score = new JLabel("0");
+		top.add(score, BorderLayout.WEST);
+		winlose = new JLabel();
+		top.add(winlose, BorderLayout.CENTER);
+		time = new JLabel("0.00");
+		top.add(time, BorderLayout.EAST);
+		add(top, BorderLayout.NORTH);
 	}
 	
 	@Override
@@ -94,10 +100,10 @@ public class Screen extends JPanel{
 		public void actionPerformed(ActionEvent e){
 			if(Math.random() < PROBABILITY){
 				if(Math.random() < 0.5){
-					electrons.add(new Electron((int)(Math.random()*760) + 20 + frame.x, (int)(Math.random()*560) + 20 + frame.y));
+					electrons.add(new Electron((int)(Math.random()*3*getWidth()) - getWidth() + frame.x, (int)(Math.random()*3*getHeight()) - getHeight() + frame.y));
 				}
 				else{
-					protons.add(new Proton((int)(Math.random()*760) + 20 + frame.x, (int)(Math.random()*560) + 20 + frame.y));
+					protons.add(new Proton((int)(Math.random()*3*getWidth()) - getWidth() + frame.x, (int)(Math.random()*3*getHeight()) - getHeight() + frame.y));
 				}
 			}
 			
@@ -114,7 +120,6 @@ public class Screen extends JPanel{
 					if(player.intersect(electron)) {
 						player.incrementElectron();
 						electrons.remove(electron);
-						System.out.println(electron.getX() + " " + electron.getY());
 					}
 					else electron.draw(buffer, frame.x, frame.y);
 				}
@@ -125,7 +130,6 @@ public class Screen extends JPanel{
 					if(player.intersect(proton)) {
 						player.incrementProton();
 						protons.remove(proton);
-						System.out.println(proton.getX() + " " + proton.getY());
 					}
 					else proton.draw(buffer, frame.x, frame.y);
 				}
@@ -140,8 +144,10 @@ public class Screen extends JPanel{
 			positive.setText("Protons: " + player.getProtonNum());
 			negative.setText("Electrons: " + player.getElectronNum());
 			charge.setText("Net charge: " + (player.getProtonNum() - player.getElectronNum()));
-			TEMP.setText("x: " + player.getX() + " y: " + player.getY());
 			
+			DecimalFormat df = new DecimalFormat("#.##");
+			time.setText(df.format((Double.parseDouble(time.getText()) + 0.01)));
+			score.setText(player.getScore()+"");
 			repaint();
 		}
 		
@@ -153,14 +159,14 @@ public class Screen extends JPanel{
 	
 	class Checker implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			//System.out.println(frame.x + " " + frame.y + " " + player.getX() + " " + player.getY());
 			if(Math.abs(player.getProtonNum() - player.getElectronNum()) > 2)
 				lose();
 		}
 		
 		public void lose(){
-			winlose.add(new JLabel("Game over!"));
-			add(winlose, BorderLayout.NORTH);
+			winlose.setText("Game over!");
+			winlose.setHorizontalAlignment(SwingConstants.CENTER);
+			top.add(winlose, BorderLayout.CENTER);
 		}
 	}
 }
