@@ -20,12 +20,12 @@ public class Screen extends JPanel{
 	private JLabel name, chemical, positive, negative, charge, TEMP;
 
 	private JPanel game, info;
-	private final int WIDTH = 4000, HEIGHT = 3000;
+	private double KEYACCELERATION = 5;
+	private double KEYACCELERATION2 = 5;
 	private Rectangle frame;
 	
 
 	private HashSet<Subatomic> protons, electrons;
-	private int electronNum=1, protonNum=1;
 	private String[] elements = {"Hydrogen", "Helium", "Lithium", "Beryllium", "Boron", "Carbon", "Nitrogen", "Oxygen", "Fluorine", "Neon", "Sodium", "Magnesium", "Aluminium", "Silicon", "Phosphorus", "Sulfur", "Chlorine", "Argon", "Potassium", "Calcium", "Scandium", "Titanium", "Vanadium", "Chromium", "Manganese", "Iron", "Cobalt", "Nickel", "Copper", "Zinc", "Gallium", "Germanium", "Arsenic", "Selenium", "Bromine", "Krypton", "Rubidium", "Strontium", "Yttrium", "Zirconium", "Niobium", "Molybdenum", "Technetium", "Ruthenium", "Rhodium", "Palladium", "Silver", "Cadmium", "Indium", "Tin", "Antimony", "Tellurium", "Iodine", "Xenon", "Caesium", "Barium", "Lanthanum", "Cerium", "Praseodymium", "Neodymium", "Promethium", "Samarium", "Europium", "Gadolinium", "Terbium", "Dysprosium", "Holmium", "Erbium", "Thulium", "Ytterbium", "Lutetium", "Hafnium", "Tantalum", "Tungsten", "Rhenium", "Osmium", "Iridium", "Platinum", "Gold", "Mercury", "Thallium", "Lead", "Bismuth", "Polonium", "Astatine", "Radon", "Francium", "Radium", "Actinium", "Thorium", "Protactinium", "Uranium", "Neptunium", "Plutonium", "Americium", "Curium", "Berkelium", "Californium", "Einsteinium", "Fermium", "Mendelevium", "Nobelium", "Lawrencium", "Rutherfordium", "Dubnium", "Seaborgium", "Bohrium", "Hassium", "Meitnerium", "Darmstadtium", "Roentgenium", "Copernicium", "Ununtrium", "Flerovium", "Ununpentium", "Livermorium", "Ununseptium", "Ununoctium"};
 	private String[] elems = {"H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr", "Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I", "Xe", "Cs", "Ba", "La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Tl", "Pb", "Bi", "Po", "At", "Rn", "Fr", "Ra", "Ac", "Th", "Pa", "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn", "Uut", "Fl", "Uup", "Lv", "Uus", "Uuo"};
 
@@ -121,7 +121,7 @@ public class Screen extends JPanel{
 			for(Subatomic electron : copy){
 				if(frame.contains(electron.getX(), electron.getY())){
 					if(player.intersect(electron)) {
-						electronNum++;
+						player.incrementElectron();
 						electrons.remove(electron);
 						System.out.println(electron.getX() + " " + electron.getY());
 					}
@@ -132,7 +132,7 @@ public class Screen extends JPanel{
 			for(Subatomic proton: copy){
 				if(frame.contains(proton.getX(), proton.getY())){
 					if(player.intersect(proton)) {
-						protonNum++;
+						player.incrementProton();
 						protons.remove(proton);
 						System.out.println(proton.getX() + " " + proton.getY());
 					}
@@ -140,11 +140,11 @@ public class Screen extends JPanel{
 				}
 			}
 			
-			name.setText(elements[protonNum-1]);
-			chemical.setText(elems[protonNum-1]);
-			positive.setText("Protons: " + protonNum);
-			negative.setText("Electrons: " + electronNum);
-			charge.setText("Net charge: " + (protonNum - electronNum));
+			name.setText(elements[player.getProtonNum()-1]);
+			chemical.setText(elems[player.getProtonNum()-1]);
+			positive.setText("Protons: " + player.getProtonNum());
+			negative.setText("Electrons: " + player.getElectronNum());
+			charge.setText("Net charge: " + (player.getProtonNum() - player.getElectronNum()));
 			TEMP.setText("x: " + player.getX() + " y: " + player.getY());
 			
 			repaint();
@@ -154,7 +154,7 @@ public class Screen extends JPanel{
 	class Checker implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			//System.out.println(frame.x + " " + frame.y + " " + player.getX() + " " + player.getY());
-			if(Math.abs(protonNum - electronNum) > 2)
+			if(Math.abs(player.getProtonNum() - player.getElectronNum()) > 2)
 				lose();
 		}
 		
