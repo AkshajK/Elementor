@@ -1,7 +1,5 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
-
 
 public class Atom {
 	private Color color;
@@ -11,7 +9,7 @@ public class Atom {
 	
 	public Atom(){
 		color = Color.BLACK;
-		x = 2000; y = 1500;
+		x = 0; y = 0;
 		dx = 0; dy = 0;
 		radius = 25;
 	}

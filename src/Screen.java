@@ -18,15 +18,9 @@ public class Screen extends JPanel{
 	private Graphics buffer;
 	private Atom player;
 	private JLabel name, chemical, positive, negative, charge, TEMP;
-	private JPanel game, info;
-<<<<<<< Updated upstream
-	private final int WIDTH = 4000, HEIGHT = 3000;
+	private JPanel info;
 	private Rectangle frame;
-	private final double KEYACCELERATION = 1; //change in acceleration to move per millisecond
-=======
-	private final double KEYACCELERATION = 0.5; //change in acceleration to move per millisecond
-	private final double KEYACCELERATION2 = 1; // 2nd one
->>>>>>> Stashed changes
+	private final double KEYACCELERATION = 1; // 2nd one
 	private HashSet<Subatomic> protons, electrons;
 	private int electronNum=1, protonNum=1;
 	private String[] elements = {"Hydrogen", "Helium", "Lithium", "Beryllium", "Boron", "Carbon", "Nitrogen", "Oxygen", "Fluorine", "Neon", "Sodium", "Magnesium", "Aluminium", "Silicon", "Phosphorus", "Sulfur", "Chlorine", "Argon", "Potassium", "Calcium", "Scandium", "Titanium", "Vanadium", "Chromium", "Manganese", "Iron", "Cobalt", "Nickel", "Copper", "Zinc", "Gallium", "Germanium", "Arsenic", "Selenium", "Bromine", "Krypton", "Rubidium", "Strontium", "Yttrium", "Zirconium", "Niobium", "Molybdenum", "Technetium", "Ruthenium", "Rhodium", "Palladium", "Silver", "Cadmium", "Indium", "Tin", "Antimony", "Tellurium", "Iodine", "Xenon", "Caesium", "Barium", "Lanthanum", "Cerium", "Praseodymium", "Neodymium", "Promethium", "Samarium", "Europium", "Gadolinium", "Terbium", "Dysprosium", "Holmium", "Erbium", "Thulium", "Ytterbium", "Lutetium", "Hafnium", "Tantalum", "Tungsten", "Rhenium", "Osmium", "Iridium", "Platinum", "Gold", "Mercury", "Thallium", "Lead", "Bismuth", "Polonium", "Astatine", "Radon", "Francium", "Radium", "Actinium", "Thorium", "Protactinium", "Uranium", "Neptunium", "Plutonium", "Americium", "Curium", "Berkelium", "Californium", "Einsteinium", "Fermium", "Mendelevium", "Nobelium", "Lawrencium", "Rutherfordium", "Dubnium", "Seaborgium", "Bohrium", "Hassium", "Meitnerium", "Darmstadtium", "Roentgenium", "Copernicium", "Ununtrium", "Flerovium", "Ununpentium", "Livermorium", "Ununseptium", "Ununoctium"};
@@ -38,9 +32,7 @@ public class Screen extends JPanel{
 		setLayout(new BorderLayout());
 		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 		buffer = image.getGraphics();
-		frame = new Rectangle((WIDTH-getWidth())/2, (HEIGHT-getHeight())/2, getWidth(), getHeight());
-		
-		game = new JPanel();
+		frame = new Rectangle();
 		info = new JPanel();
 		
 		player = new Atom();
@@ -81,19 +73,19 @@ public class Screen extends JPanel{
 		public void keyPressed(KeyEvent e){
 			if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 				if(player.getdX() <= 0) player.setdX(player.getdX() - KEYACCELERATION);
-				else player.setdX(player.getdX() - KEYACCELERATION2);
+				else player.setdX(player.getdX() - KEYACCELERATION);
 			}
 			if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				if(player.getdX() >= 0) player.setdX(player.getdX() + KEYACCELERATION);
-				else player.setdX(player.getdX() + KEYACCELERATION2);
+				else player.setdX(player.getdX() + KEYACCELERATION);
 			}
 			if(e.getKeyCode() == KeyEvent.VK_UP) {
 				if(player.getdY() <= 0) player.setdY(player.getdY() - KEYACCELERATION);
-				else player.setdY(player.getdY() - KEYACCELERATION2);
+				else player.setdY(player.getdY() - KEYACCELERATION);
 			}
 			if(e.getKeyCode() == KeyEvent.VK_DOWN) {
 				if(player.getdX() >= 0) player.setdY(player.getdY() + KEYACCELERATION);
-				else player.setdY(player.getdY() + KEYACCELERATION2);
+				else player.setdY(player.getdY() + KEYACCELERATION);
 			}
 		}
 	}
